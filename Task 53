@@ -17,50 +17,17 @@ namespace Task_53
     {
         static void Main(string[] args)
         {
-            СriminalDataBase criminalDataBase = new СriminalDataBase();
-            criminalDataBase.Work();
+            СriminalDatabase criminalDatabase = new СriminalDatabase();
+            criminalDatabase.GiveAmnestyCriminals();
+            criminalDatabase.ShowСriminals();
         }
     }
 
-    class СriminalDataBase
+    class СriminalDatabase
     {
-        private bool _isWork = true;
         private List<Сriminal> _сriminals = new List<Сriminal>();
 
-        public void Work()
-        {
-            string userInput;
-
-            while (_isWork)
-            {
-                Console.WriteLine("\nДобро пожаловать в базу преступников нашей великой страны Арстоцк! " +
-                    "\n\nВыберите команду из предложенных:" +
-                    "\n1 - Ввести амнистию! " +
-                    "\n2 - Вывести список всех преступников. " +
-                    "\n3 - Выход.");
-
-                userInput = Console.ReadLine();
-                Console.Clear();
-
-                switch (userInput)
-                {
-                    case "1":
-                        GiveAmnestyCriminals();
-                        break;
-                    case "2":
-                        ShowСriminals();
-                        break;
-                    case "3":
-                        _isWork = false;
-                        break;
-                    default:
-                        Console.WriteLine("\nДанные не корректны");
-                        break;
-                }
-            }
-        }
-
-        public СriminalDataBase()
+        public СriminalDatabase()
         {
             _сriminals.Add(new Сriminal("Иванов Иван Иваныч", "Антиправительственное"));
             _сriminals.Add(new Сriminal("Петров Петр Петрович", "Антиправительственное"));
@@ -70,24 +37,19 @@ namespace Task_53
             _сriminals.Add(new Сriminal("Алекссандров Александр Александрович", "Воровство"));
         }
 
-        private void GiveAmnestyCriminals()
+        public void GiveAmnestyCriminals()
         {
             ShowСriminals();
 
             var filteredCriminals = _сriminals.OrderBy(criminal => criminal.Crime).SkipWhile(criminal => criminal.Crime.StartsWith("Антиправительственное"));
 
-            Console.WriteLine("\nСписок преступников после амнистии:\n ");
+            _сriminals = filteredCriminals.ToList();
 
-            foreach (var criminal in filteredCriminals)
-            {
-                Console.WriteLine(criminal.FullName);
-            }
-            Console.WriteLine("\nДля возврата в меню нажмите любую клавишу.");
-            Console.ReadKey();
-            Console.Clear();
+            Console.WriteLine("\n\nВ нашей великой стране Арстоцка произошла амнистия!");
+
         }
 
-        private void ShowСriminals()
+        public void ShowСriminals()
         {
             Console.WriteLine("\nСписок преступников:");
 
@@ -116,3 +78,4 @@ namespace Task_53
         }
     }
 }
+
